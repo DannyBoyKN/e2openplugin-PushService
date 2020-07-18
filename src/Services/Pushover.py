@@ -17,7 +17,7 @@
 #######################################################################
 
 # Config
-from Components.config import config, NoSave, ConfigText, ConfigPassword
+from Components.config import config, NoSave, ConfigText, ConfigPassword, ConfigSelection
 
 # Plugin internal
 from Plugins.Extensions.PushService.ServiceBase import ServiceBase
@@ -38,9 +38,33 @@ class Pushover(ServiceBase):
         ServiceBase.__init__(self)
 
         # Default configuration
-        self.setOption('token', NoSave(ConfigPassword(default="<API Token>", fixed_size=False)), "")
-        self.setOption('user', NoSave(ConfigPassword(default="<User Token>", fixed_size=False)), "")
-        self.setOption('sound', NoSave(ConfigText(default="cashregister", fixed_size=False)), "cashregister")
+        self.setOption('token', NoSave(ConfigPassword(default="<API Token>", fixed_size=False)), "API token")
+        self.setOption('user', NoSave(ConfigPassword(default="<User Token>", fixed_size=False)), "User token")
+        self.setOption('sound', NoSave(ConfigSelection(
+            choices=["pushover", # Pushover (default)
+                    "bike", # Bike
+                    "bugle", # Bugle
+                    "cashregister", # Cash Register
+                    "classical", # Classical
+                    "cosmic", # Cosmic
+                    "falling", # Falling
+                    "gamelan", # Gamelan
+                    "incoming", # Incoming
+                    "intermission", # Intermission
+                    "magic", # Magic
+                    "mechanical", # Mechanical
+                    "pianobar", # Piano Bar
+                    "siren", # Siren
+                    "spacealarm", # Space Alarm
+                    "tugboat", # Tug Boat
+                    "alien", # Alien Alarm (long)
+                    "climb", # Climb (long)
+                    "persistent", # Persistent (long)
+                    "echo", # Pushover Echo (long)
+                    "updown", # Up Down (long)
+                    "vibrate", # Vibrate Only
+                    "none"],
+            default="cashregister")), "sound")
 
     def push(self, callback, errback, pluginname, subject, body="", attachments=[]):
         from Plugins.Extensions.PushService.plugin import NAME
